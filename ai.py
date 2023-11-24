@@ -9,14 +9,13 @@ class AI:
 
     def reply(self, thread: Thread) -> str:
         # convert thread to messages
-        history = str(thread)
         messages = [
             {"role": "system",
                 "content": self.system_message},
             *_convert_thread_to_messages(thread)
         ]
         print(messages)
-        reply = self.client.complete('gpt-4', messages)
+        reply = self.client.complete('gpt-3.5-turbo', messages)
         return reply
 
 

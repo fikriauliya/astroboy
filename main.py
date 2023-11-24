@@ -45,11 +45,11 @@ async def read_root(request: Request):
 
 @app.post("/chat", response_class=HTMLResponse)
 async def chat(request: Request, message: str = Form(...)):
-    thread = chat_app.get_thread(0)
     new_chat = Chat(random_id(), User(1, "user"), message)
-    thread.add_chat(new_chat)
+    chat_app.add_chat(0, "main", new_chat)
+    thread = chat_app.get_thread(0)
 
     reply = Chat(random_id(), User(0, "assistant"), ai.reply(thread))
-    thread.add_chat(reply)
+    chat_app.add_chat(0, "main", reply)
 
     return templates.TemplateResponse("_chat.jinja", {"request": request, "chats": [new_chat, reply]})
