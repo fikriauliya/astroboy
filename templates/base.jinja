@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.9"></script>
+  <title>Document</title>
+  {% block head %}
+  {% endblock %}
+</head>
+
+<body class="bg-white text-gray-800">
+  <header class="bg-gray-100 p-4 shadow-md">
+    <h1 class="text-xl font-bold">Astroboy</h1>
+  </header>
+  <main class="p-4">
+    {% block content %}
+    <div>Placeholder</div>
+    {% endblock %}
+  </main>
+</body>
+
+</html>

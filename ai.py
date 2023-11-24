@@ -1,0 +1,28 @@
+
+from entities import Thread
+
+
+class AI:
+    def __init__(self, client, system_message):
+        self.client = client
+        self.system_message = system_message
+
+    def reply(self, thread: Thread) -> str:
+        # convert thread to messages
+        history = str(thread)
+        messages = [
+            {"role": "system",
+                "content": self.system_message},
+            *_convert_thread_to_messages(thread)
+        ]
+        print(messages)
+        reply = self.client.complete('gpt-4', messages)
+        return reply
+
+
+def _convert_thread_to_messages(thread: Thread) -> list[dict]:
+    messages = []
+    for chat in thread.chats:
+        messages.append(
+            {"role": chat.sender.name, "content": chat.message})
+    return messages
