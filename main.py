@@ -32,9 +32,9 @@ def random_id():
 ai = init_ai()
 chat_app = ChatApp()
 chat_app.add_thread(0, "main", Chat(
-    1, User(random_id(), "assistant"), "Hello, I am a bot."))
-chat_app.get_thread(0).add_chat(
-    Chat(random_id(), User(1, "user"), "Hello, I am a user."))
+    1, User(random_id(), "assistant"), "Hello, I am your virtual assistant."))
+# chat_app.get_thread(0).add_chat(
+#     Chat(random_id(), User(1, "user"), "Hello, I am a user."))
 
 
 @app.get("/", response_class=HTMLResponse)

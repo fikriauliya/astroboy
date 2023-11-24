@@ -1,6 +1,6 @@
 {% for chat in chats %}
 <div
-    class="p-2.5 my-2.5 rounded-lg max-w-3/4 {% if chat.sender.name == 'bot' %}bg-gray-200{% else %}bg-green-200{% endif %}">
+    class="p-2.5 my-2.5 rounded-lg max-w-3/4 {% if chat.sender.name == 'assistant' %}bg-gray-200{% else %}bg-green-200{% endif %}">
     <p class="font-semibold">{{ chat.sender.name }}</p>
     <p>{{ chat.message }}</p>
 </div>
