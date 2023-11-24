@@ -6,7 +6,7 @@
     <div id="chats">
         {% include "_chat.jinja" %}
     </div>
-    <form class="flex items-center mt-4" hx-post="/chat" hx-target="#chats" hx-swap="beforeend">
+    <form class="flex items-center mt-4" hx-post="/chat" hx-target="#last-placeholder" hx-swap="outerHTML">
         <input name="message" type="text" placeholder="Type a message"
             class="flex-grow p-4 bg-white rounded-l-lg focus:outline-none">
         <button class="bg-green-500 text-white p-4 rounded-r-lg">

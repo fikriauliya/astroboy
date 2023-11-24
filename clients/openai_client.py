@@ -13,3 +13,14 @@ class OpenAIClient:
         )
 
         return completion.choices[0].message.content
+
+    def speak(self, id, message):
+        from pathlib import Path
+
+        speech_file_path = Path(__file__).parent.parent / f"public/{id}.mp3"
+        response = self.client.audio.speech.create(
+            model="tts-1",
+            voice="alloy",
+            input=message
+        )
+        response.stream_to_file(speech_file_path)

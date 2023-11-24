@@ -18,6 +18,9 @@ class AI:
         reply = self.client.complete('gpt-3.5-turbo', messages)
         return reply
 
+    def speak(self, id, message):
+        self.client.speak(id, message)
+
 
 def _convert_thread_to_messages(thread: Thread) -> list[dict]:
     messages = []
