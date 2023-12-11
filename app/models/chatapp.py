@@ -1,4 +1,4 @@
-from entities import Chat, Thread
+from .entities import Chat, Thread
 
 
 class ChatApp:

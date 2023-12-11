@@ -133,3 +133,5 @@ cython_debug/
 .vscode/
 
 public/
+
+.DS_Store

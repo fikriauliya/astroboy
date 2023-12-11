@@ -3,11 +3,11 @@ from fastapi import Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from app.dependencies import init_ai, random_id
-from entities import Chat, User
-from chatapp import ChatApp
+from ..models.entities import Chat, User
+from ..models.chatapp import ChatApp
 
 router = APIRouter()
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory="app/templates")
 
 ai = init_ai()
 chat_app = ChatApp()

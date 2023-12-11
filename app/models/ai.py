@@ -1,5 +1,5 @@
 
-from entities import Thread
+from .entities import Thread
 
 
 class AI:

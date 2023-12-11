@@ -1,7 +1,7 @@
 import os
 from typing import Annotated, Union
-from clients.openai_client import OpenAIClient
-from ai import AI
+from .clients.openai_client import OpenAIClient
+from .models.ai import AI
 
 
 
