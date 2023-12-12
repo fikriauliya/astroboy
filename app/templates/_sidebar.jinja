@@ -1,0 +1,41 @@
+<div class="text-sm breadcrumbs">
+  <ul>
+    <li><a href="/">Home</a></li>
+    {% if selected_server %}
+    <li><a href="/servers/{{selected_server.id}}">{{selected_server.name}}</a></li>
+    {% if selected_channel %}
+    <li><a href="/channels/{{selected_channel.id}}">{{selected_channel.name}}</a></li>
+    {% if selected_thread %}
+    <li><a href="/threads/{{selected_thread.id}}">{{selected_thread.name}}</a></li>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    <li>
+      <div class="drawer-content">
+        <label for="my-drawer" class="btn btn-primary text-xs p-2 drawer-button">Change</label>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="drawer">
+  <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-side">
+    <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+    <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+      {% for server in servers %}
+      <li>
+        <a href="/servers/{{server.id}}">{{server.name}}</a>
+        {% if selected_server and server.id == selected_server.id %}
+        <ul>
+          {% for channel in channels %}
+          <li>
+            <a href="/channels/{{channel.id}}">{{channel.name}}</a>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>

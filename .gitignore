@@ -135,3 +135,5 @@ cython_debug/
 public/
 
 .DS_Store
+
+service-account.json
