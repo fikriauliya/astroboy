@@ -8,7 +8,8 @@ from app.clients.firestore_client import get_firestore_client
 from app.dependencies import init_ai
 from ..models.entities import Chat, Thread, User
 from ..models.chatapp import ChatApp
-from app.repositories import add_thread, get_threads
+from app.repositories import add_thread, delete_thread, get_thread, get_threads
+from app.dependencies import get_current_user
 
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
@@ -49,10 +50,25 @@ async def create(request: Request, channel_id: str = Form(...), content: str = F
     # TODO replace with summary
     thread_name = content[:20]
     created_at = datetime.now()
+    current_user = get_current_user(request)
     thread = Thread(id="", name=thread_name,
-                    channel=channel_id, created_at=created_at)
+                    channel=channel_id, created_at=created_at,
+                    created_by=current_user.uid)
     add_thread(db, thread)
 
     threads = get_threads(db, channel_id)
 
-    return templates.TemplateResponse("_threads.jinja", {"request": request, "threads": threads})
+    return templates.TemplateResponse("_threads.jinja", {"request": request, "threads": threads, "current_user": current_user})
+
+
+@router.delete("/{thread_id}")
+async def delete(request: Request, thread_id: str, db=Depends(get_firestore_client)):
+    thread = get_thread(db, thread_id)
+    channel_id = thread.channel
+    current_user = get_current_user(request)
+
+    if thread.created_by == current_user.uid:
+        delete_thread(db, thread_id)
+
+    threads = get_threads(db, channel_id)
+    return templates.TemplateResponse("_threads.jinja", {"request": request, "threads": threads, "current_user": current_user})

@@ -1,7 +1,20 @@
 <ul>
     {% for thread in threads %}
-    <li>
-        <a href="/threads/{{thread.id}}">{{thread.name}}</a>
-    </li>
+    <div class="collapse bg-base-200 my-3">
+        <input type="checkbox" />
+        <div class="collapse-title text-md font-medium">
+            <div class="col-span-5">
+                {{thread.name}}</div>
+        </div>
+        <div class=" collapse-content">
+            {% if thread.created_by == current_user.uid %}
+            <button class="float-right btn btn-outline btn-xs" hx-delete='/threads/{{thread.id}}'
+                hx-confirm="Are you sure?" hx-target="#threads">
+                Delete
+            </button>
+            {{thread.name}}
+            {% endif %}
+        </div>
+    </div>
     {% endfor %}
 </ul>

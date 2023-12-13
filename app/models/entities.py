@@ -62,3 +62,4 @@ class Thread(BaseModel):
     name: str
     channel: str
     created_at: datetime
+    created_by: str

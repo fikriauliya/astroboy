@@ -19,6 +19,7 @@ async def detail(request: Request, channel_id: str, db=Depends(get_firestore_cli
     channels = get_channels(db, selected_server.id)
 
     threads = get_threads(db, channel_id)
+    current_user = get_current_user(request)
 
     print("servers", servers, "selected_server", selected_server,
           "channels", channels, "selected_channel", selected_channel, "threads", threads)
@@ -28,4 +29,5 @@ async def detail(request: Request, channel_id: str, db=Depends(get_firestore_cli
                                                         "selected_server": selected_server,
                                                         "channels": channels,
                                                         "selected_channel": selected_channel,
-                                                        "threads": threads})
+                                                        "threads": threads,
+                                                        "current_user": current_user})
