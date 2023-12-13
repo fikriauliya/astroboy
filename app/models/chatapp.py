@@ -8,17 +8,20 @@ class ChatApp:
         self.threads = {}
 
     def add_thread(self, thread_id: int, thread_name: str, first_chat: Chat):
-        if thread_id in self.threads:
-            return
-        thread = Thread(thread_id, thread_name, [first_chat])
-        self.threads[thread_id] = thread
+        # if thread_id in self.threads:
+        #     return
+        # thread = Thread(id = thread_id, name = thread_name, chats = [first_chat])
+        # self.threads[thread_id] = thread
+        pass
 
     def add_chat(self, thread_id: int, thread_name: str, chat: Chat):
-        thread = self.threads.get(thread_id)
-        if thread is None:
-            thread = Thread(thread_id, thread_name, [])
-            self.threads[thread_id] = thread
-        thread.chats.append(chat)
+        # thread = self.threads.get(thread_id)
+        # if thread is None:
+        #     thread = Thread(thread_id, thread_name, [])
+        #     self.threads[thread_id] = thread
+        # thread.chats.append(chat
+        pass
+
 
     def get_thread(self, thread_id: int):
         return self.threads[thread_id]

@@ -19,9 +19,7 @@ async def index(request: Request, db=Depends(get_firestore_client)):
 async def detail(request: Request, server_id: str, db=Depends(get_firestore_client)):
     servers = get_servers(db)
 
-    selected_server = db.collection("servers").document(server_id).get()
-    selected_server = Server(selected_server.id, selected_server.get("name"))
-
+    selected_server = db.get_server(server_id)
     channels = get_channels(db, server_id)
 
     return templates.TemplateResponse("server.jinja", {"request": request,

@@ -2,11 +2,14 @@
 
 {% block content %}
 {% include "_sidebar.jinja" %}
-<ul>
-    {% for thread in threads %}
-    <li>
-        <a href="/threads/{{thread.id}}">{{thread.name}}</a>
-    </li>
-    {% endfor %}
-</ul>
+
+<form class="flex gap-4 py-4" hx-post="/threads">
+    <textarea name="content" class="flex-grow textarea textarea-bordered" placeholder="Your question"></textarea>
+    <button hx-post="/threads" hx-vars='{channel_id: "{{selected_channel.id}}"}'
+        class="btn" hx-target="#threads">Post</button>
+</form>
+
+<div id="threads">
+    {% include "_threads.jinja"%}
+</div>
 {% endblock %}

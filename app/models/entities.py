@@ -1,15 +1,13 @@
 from collections import defaultdict
-from dataclasses import dataclass
+from pydantic import BaseModel
+from datetime import datetime
 
-
-@dataclass
-class User:
+class User(BaseModel):
     id: int
     name: str
 
 
-@dataclass
-class Chat:
+class Chat(BaseModel):
     id: int
     sender: User
     message: str
@@ -46,20 +44,19 @@ class Chat:
 #         self.chats = thread.chats[-10:]
 
 
-@dataclass
-class Server:
+class Server(BaseModel):
     id: str
     name: str
 
 
-@dataclass
-class Channel:
+class Channel(BaseModel):
     id: str
     name: str
     server: str
 
-@dataclass
-class Thread:
+
+class Thread(BaseModel):
     id: str
     name: str
     channel: str
+    created_at: datetime

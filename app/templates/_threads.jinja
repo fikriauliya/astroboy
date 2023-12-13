@@ -1,0 +1,7 @@
+<ul>
+    {% for thread in threads %}
+    <li>
+        <a href="/threads/{{thread.id}}">{{thread.name}}</a>
+    </li>
+    {% endfor %}
+</ul>
