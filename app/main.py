@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from .dependencies import init_ai, random_id
+from .dependencies import init_ai
 
 from .routers.servers import router as server_router
 from .routers.channels import router as channel_router

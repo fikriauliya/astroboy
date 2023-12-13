@@ -7,12 +7,64 @@
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/htmx.org@1.9.9"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-auth-compat.js"></script>
+  <script type="module">
+    const firebaseConfig = {
+      apiKey: "AIzaSyAJGQTRKoZY0u3EQC4l6qKBykfVQklgRCk",
+      authDomain: "rg-astroboy.firebaseapp.com",
+      projectId: "rg-astroboy",
+      storageBucket: "rg-astroboy.appspot.com",
+      messagingSenderId: "913716743610",
+      appId: "1:913716743610:web:245cecc729a31715822183"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    let ui = new firebaseui.auth.AuthUI(app.auth());
+
+    let current_url = window.location.href;
+    ui.start('#firebaseui-auth-container', {
+      signInSuccessUrl: current_url,
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      ],
+    });
+
+    const checkAuth = () => {
+      app.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // hide login form
+          document.getElementById('firebaseui-auth-container').style.display = 'none';
+          console.log("Welcome", user.displayName)
+
+          //set cookie
+          app.auth().currentUser.getIdToken(true).then((idToken) => {
+            //TODO: make it more secure?
+            document.cookie = `token=${idToken};path=/;SameSite=Strict`;
+          }).catch((error) => {
+            console.log(error)
+          });
+        }
+      })
+    }
+    window.addEventListener('load', () => {
+      checkAuth()
+    })
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.1.0/firebase-ui-auth.css" />
+
   <title>Document</title>
   {% block head %}
   {% endblock %}
 </head>
 
 <body>
+  <script type="module">
+  </script>
+  <div id="firebaseui-auth-container"></div>
+
   <header>
     <h1 class="text-xl font-bold p-4"><a href="/servers">Astroboy</a></h1>
   </header>

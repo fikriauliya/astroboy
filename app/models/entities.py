@@ -2,9 +2,11 @@ from collections import defaultdict
 from pydantic import BaseModel
 from datetime import datetime
 
+
 class User(BaseModel):
-    id: int
+    uid: str
     name: str
+    email: str
 
 
 class Chat(BaseModel):

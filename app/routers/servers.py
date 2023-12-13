@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
 from app.clients.firestore_client import get_firestore_client
-from app.repositories import get_servers, get_channels
+from app.repositories import get_servers, get_channels, get_server
 from app.models.entities import Server
 
 router = APIRouter()
@@ -19,7 +19,7 @@ async def index(request: Request, db=Depends(get_firestore_client)):
 async def detail(request: Request, server_id: str, db=Depends(get_firestore_client)):
     servers = get_servers(db)
 
-    selected_server = db.get_server(server_id)
+    selected_server = get_server(db, server_id)
     channels = get_channels(db, server_id)
 
     return templates.TemplateResponse("server.jinja", {"request": request,

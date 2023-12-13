@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from app.clients.firestore_client import get_firestore_client
-from app.dependencies import init_ai, random_id
+from app.dependencies import init_ai
 from ..models.entities import Chat, Thread, User
 from ..models.chatapp import ChatApp
 from app.repositories import add_thread, get_threads
@@ -16,8 +16,8 @@ templates = Jinja2Templates(directory="app/templates")
 ai = init_ai()
 chat_app = ChatApp()
 chat_app.add_thread(thread_id=0, thread_name="main", first_chat=Chat(
-    id = 1, sender = User(id=random_id(), name="assistant"), 
-    message = "Hello, I am your virtual assistant. Ask me anything"))
+    id=1, sender=User(uid='sdf2iu89s', name="assistant", email="assistant@ruangguru.com"),
+    message="Hello, I am your virtual assistant. Ask me anything"))
 
 
 @router.get("/", response_class=HTMLResponse)
@@ -49,7 +49,8 @@ async def create(request: Request, channel_id: str = Form(...), content: str = F
     # TODO replace with summary
     thread_name = content[:20]
     created_at = datetime.now()
-    thread = Thread(id = "", name = thread_name, channel = channel_id, created_at = created_at)
+    thread = Thread(id="", name=thread_name,
+                    channel=channel_id, created_at=created_at)
     add_thread(db, thread)
 
     threads = get_threads(db, channel_id)

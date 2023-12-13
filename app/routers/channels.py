@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
 
 from app.clients.firestore_client import get_firestore_client
+from app.dependencies import get_current_user
 from app.repositories import get_channel, get_channels, get_server, get_servers, get_threads
 from app.models.entities import Thread
 
