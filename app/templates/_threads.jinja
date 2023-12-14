@@ -1,19 +1,26 @@
 <ul>
     {% for thread in threads %}
     <div class="collapse bg-base-200 my-3">
-        <input type="checkbox" />
-        <div class="collapse-title text-md font-medium">
+        <input type="checkbox" class="expand-box" id="expand_{{thread.id}}" hx-get="/messages/{{thread.id}}"
+            hx-target="#chats_{{thread.id}}" hx-swap="outerHTML">
+        <div class=" collapse-title text-md font-medium">
             <div class="col-span-5">
                 {{thread.name}}</div>
         </div>
-        <div class=" collapse-content">
+        <div class="collapse-content">
             {% if thread.created_by == current_user.uid %}
-            <button class="float-right btn btn-outline btn-xs" hx-delete='/threads/{{thread.id}}'
-                hx-confirm="Are you sure?" hx-target="#threads">
+            <button class="btn btn-outline btn-xs" hx-delete='/threads/{{thread.id}}' hx-confirm="Are you sure?"
+                hx-target="#threads" hx-swap="innerHTML">
                 Delete
             </button>
-            {{thread.name}}
             {% endif %}
+            {% include "_messages.jinja" %}
+            <form class="flex gap-4 py-4" hx-post="/messages/" hx-target="#chats_{{thread.id}}" hx-swap="outerHTML"
+                hx-vars='{thread_id: "{{thread.id}}"}'>
+                <input type="text" name="content" class="flex-grow input input-bordered"
+                    placeholder="Your message"></textarea>
+                <button class="btn btn-neutral">Post</button>
+            </form>
         </div>
     </div>
     {% endfor %}

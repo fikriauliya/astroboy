@@ -1,4 +1,4 @@
-from .models.entities import Server, Channel, Thread
+from .models.entities import Server, Channel, Thread, Message
 
 
 def get_servers(db):
@@ -46,4 +46,40 @@ def add_thread(db, thread: Thread) -> Thread:
 
 
 def delete_thread(db, thread_id: str):
-    db.collection("threads").document(thread_id).delete()
+    # Start a batch
+    batch = db.batch()
+
+    # Get all messages in the thread
+    messages = db.collection("messages").where(
+        "thread", "==", thread_id).stream()
+
+    # Add each message to the batch for deletion
+    for message in messages:
+        message_ref = db.collection("messages").document(message.id)
+        batch.delete(message_ref)
+
+    # Delete the thread
+    thread_ref = db.collection("threads").document(thread_id)
+    batch.delete(thread_ref)
+
+    # Commit the batch
+    batch.commit()
+
+
+def get_messages(db, thread_id: str):
+    docs = db.collection("messages").where("thread", "==", thread_id).order_by(
+        "created_at", direction="ASCENDING").stream()
+    docs = [(doc.id, doc.to_dict()) for doc in docs]
+    return [Message(id=doc[0],
+                    thread=doc[1].get("thread"),
+                    channel=doc[1].get("channel"),
+                    sender=doc[1].get("sender"),
+                    content=doc[1].get("content"),
+                    created_at=doc[1].get("created_at")) for doc in docs]
+
+
+def add_message(db, message: Message) -> Message:
+    _, doc_ref = db.collection("messages").add(
+        message.model_dump(exclude={"id"}, exclude_none=True))
+    message.id = doc_ref.id
+    return message

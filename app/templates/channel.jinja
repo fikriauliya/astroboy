@@ -3,10 +3,9 @@
 {% block content %}
 {% include "_sidebar.jinja" %}
 
-<form class="flex gap-4 py-4">
+<form class="flex gap-4 py-4" hx-post="/threads" hx-vars='{channel_id: "{{selected_channel.id}}"}' hx-target="#threads">
     <textarea name="content" class="flex-grow textarea textarea-bordered" placeholder="Your question"></textarea>
-    <button hx-post="/threads" hx-vars='{channel_id: "{{selected_channel.id}}"}' class="btn"
-        hx-target="#threads">Post</button>
+    <button class="btn">Post</button>
 </form>
 
 <div id="threads">

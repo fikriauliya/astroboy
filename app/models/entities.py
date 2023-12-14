@@ -1,4 +1,5 @@
 from collections import defaultdict
+from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -14,6 +15,14 @@ class Chat(BaseModel):
     sender: User
     message: str
 
+
+class Message(BaseModel):
+    id: str
+    channel: Optional[str] = None
+    thread: Optional[str] = None
+    sender: str
+    content: str
+    created_at: datetime
 
 # @dataclass
 # class Thread:
