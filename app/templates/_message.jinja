@@ -1,0 +1,9 @@
+{% if message.sender == current_user.uid%}
+<div class="chat chat-end">
+    <div class="chat-bubble">{{message.content}}</div>
+</div>
+{% else %}
+<div class="chat chat-start">
+    <div class="chat-bubble">{{message.content}}</div>
+</div>
+{% endif %}

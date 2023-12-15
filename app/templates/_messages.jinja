@@ -1,13 +1,3 @@
-<div id="chats_{{thread.id}}">
-    {% for message in messages %}
-    {% if message.sender == current_user.uid%}
-    <div class="chat chat-end">
-        <div class="chat-bubble">{{message.content}}</div>
-    </div>
-    {% else %}
-    <div class="chat chat-start">
-        <div class="chat-bubble">{{message.content}}</div>
-    </div>
-    {% endif %}
-    {% endfor %}
-</div>
+{% for message in messages %}
+{% include "_message.jinja" %}
+{% endfor %}

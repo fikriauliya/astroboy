@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends
+import time
+from fastapi import APIRouter, Depends, Response
 from fastapi import Form, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -35,9 +36,11 @@ async def create(request: Request, thread_id: str = Form(...), content: str = Fo
                       created_at=datetime.now()
                       )
     message = add_message(db, message)
+    # return empty response
+    return Response(status_code=204)
 
-    thread = get_thread(db, thread_id)
-    messages = get_messages(db, thread_id)
-    print("messages", messages)
-    current_user = get_current_user(request)
-    return templates.TemplateResponse("_messages.jinja", {"request": request, "messages": messages, "current_user": current_user, "thread": thread})
+    # thread = get_thread(db, thread_id)
+    # messages = get_messages(db, thread_id)
+    # print("messages", messages)
+    # current_user = get_current_user(request)
+    # return templates.TemplateResponse("_messages.jinja", {"request": request, "messages": messages, "current_user": current_user, "thread": thread})
