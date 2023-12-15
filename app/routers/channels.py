@@ -11,6 +11,8 @@ templates = Jinja2Templates(directory="app/templates")
 
 
 @router.get("/{channel_id}")
+# TODO: hack
+@router.post("/{channel_id}")
 async def detail(request: Request, channel_id: str, db=Depends(get_firestore_client)):
     selected_channel = get_channel(db, channel_id)
     servers = get_servers(db)

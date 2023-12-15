@@ -27,8 +27,10 @@ async def index(request: Request, thread_id: str, db=Depends(get_firestore_clien
 async def create(request: Request, thread_id: str = Form(...), content: str = Form(...), db=Depends(get_firestore_client), ai=Depends(get_ai)):
     # thread = get_thread(db, thread_id)
     current_user = get_current_user(request)
+    thread = get_thread(db, thread_id)
+
     message = Message(id="",
-                      channel=None,
+                      channel=thread.channel,
                       thread=thread_id,
                       sender=current_user.uid,
                       content=content,
@@ -40,7 +42,7 @@ async def create(request: Request, thread_id: str = Form(...), content: str = Fo
     reply = ai.reply(messages)
 
     reply_message = Message(id="",
-                            channel=None,
+                            channel=thread.channel,
                             thread=thread_id,
                             sender="assistant",
                             content=reply,

@@ -1,7 +1,7 @@
 from datetime import datetime
 from fastapi import APIRouter, Depends
 from fastapi import Form, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from app.clients.firestore_client import get_firestore_client
@@ -54,20 +54,25 @@ async def create(request: Request, channel_id: str = Form(...), content: str = F
                     channel=channel_id, created_at=created_at,
                     created_by=current_user.uid)
     thread = add_thread(db, thread)
+
     message = Message(id="", channel=channel_id, thread=thread.id,
                       sender=current_user.uid, content=content, created_at=created_at)
     add_message(db, message)
     threads = get_threads(db, channel_id)
-    reply = ai.reply([message])
 
-    reply_message = Message(id="", channel=None, thread=thread.id,
+    reply = ai.reply([message])
+    reply_message = Message(id="", channel=channel_id, thread=thread.id,
                             sender="assistant", content=reply, created_at=datetime.now())
     add_message(db, reply_message)
 
-    return templates.TemplateResponse("_threads.jinja", {"request": request, "threads": threads, "current_user": current_user})
+    # return templates.TemplateResponse("_threads.jinja", {"request": request, "threads": threads, "current_user": current_user})
+
+    # redirect to /channels/{channel_id}
+    return RedirectResponse(url=f"/channels/{channel_id}")
 
 
-@router.delete("/{thread_id}")
+# TODO: hacky
+@router.post("/delete/{thread_id}")
 async def delete(request: Request, thread_id: str, db=Depends(get_firestore_client)):
     thread = get_thread(db, thread_id)
     channel_id = thread.channel
@@ -77,4 +82,6 @@ async def delete(request: Request, thread_id: str, db=Depends(get_firestore_clie
         delete_thread(db, thread_id)
 
     threads = get_threads(db, channel_id)
-    return templates.TemplateResponse("_threads.jinja", {"request": request, "threads": threads, "current_user": current_user})
+    # return templates.TemplateResponse("_threads.jinja", {"request": request, "threads": threads, "current_user": current_user})
+
+    return RedirectResponse(url=f"/channels/{channel_id}")

@@ -10,13 +10,17 @@
         </div>
         <div class="collapse-content">
             {% if thread.created_by == current_user.uid %}
-            <button class="btn btn-outline btn-xs btn-error" hx-delete='/threads/{{thread.id}}'
-                hx-confirm="Are you sure?" hx-swap="innerHTML" hx-target="#threads">
-                Delete
-            </button>
+            <form action="/threads/delete/{{thread.id}}" method="POST">
+                <button class="btn btn-outline btn-xs btn-error">
+                    Delete
+                </button>
+            </form>
             {% endif %}
 
-            <div id="chats_{{thread.id}}" hx-ext="sse" sse-connect="/streams/messages/{{thread.id}}" sse-swap="ADDED">
+            {# <div id="chats_{{thread.id}}" hx-ext="sse" sse-connect="/streams/messages/{{thread.id}}"
+                sse-swap="ADDED">
+            </div> #}
+            <div id="chats_{{thread.id}}" sse-swap="ADDED_{{thread.id}}">
             </div>
 
             <form class="flex gap-4 py-4" hx-post="/messages/" hx-swap="none" hx-vars='{thread_id: "{{thread.id}}"}'>
