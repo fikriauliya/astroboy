@@ -26,7 +26,11 @@
             <form class="flex gap-4 py-4" hx-post="/messages/" hx-swap="none" hx-vars='{thread_id: "{{thread.id}}"}'>
                 <input type="text" name="content" class="flex-grow input input-bordered"
                     placeholder="Your message"></textarea>
-                <button class="btn btn-neutral">Post</button>
+                <button class="btn btn-neutral">
+                    Post
+                    <span class="htmx-indicator loading loading-dots loading-sm"></span>
+
+                </button>
             </form>
         </div>
     </div>
