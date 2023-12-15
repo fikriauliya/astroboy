@@ -3,12 +3,15 @@
 {% block content %}
 {% include "_sidebar.jinja" %}
 
-<form class="flex gap-4 py-4" action="/threads" method="post">
+<div id="pace">
+    {% include "_pace.jinja"%}
+    <div hx-ext="sse" sse-connect="/streams/paces/{{selected_channel.id}}" sse-swap="message"></div>
+</div>
+<form class="flex gap-4 py-4" action="/threads/" method="post">
     <input hidden name="channel_id" value="{{selected_channel.id}}">
     <textarea name="content" class="flex-grow textarea textarea-bordered" placeholder="Your question"></textarea>
     <button class="btn">Post</button>
 </form>
-
 <div hx-ext="sse" sse-connect="/streams/messages/{{selected_channel.id}}">
     <div id="threads">
         {% include "_threads.jinja"%}

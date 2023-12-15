@@ -1,0 +1,11 @@
+<form>
+    <button class="btn btn-outline btn-sm btn-error rounded-lg" hx-post="/paces/" hx-swap="none"
+        hx-vars='{feedback: "stop", channel_id: "{{selected_channel.id}}"}'>
+        Stop</button>
+    <button class="btn btn-outline btn-sm btn-warning rounded-lg" hx-post="/paces/" hx-swap="none"
+        hx-vars='{feedback: "slower", channel_id: "{{selected_channel.id}}"}'>
+        Slower</button>
+    <button class="btn btn-outline btn-sm btn-success rounded-lg" hx-post="/paces/" hx-swap="none"
+        hx-vars='{feedback: "ok", channel_id: "{{selected_channel.id}}"}'>
+        Ok</button>
+</form>

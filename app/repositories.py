@@ -1,4 +1,4 @@
-from .models.entities import Server, Channel, Thread, Message
+from .models.entities import Pace, PaceAggregation, Server, Channel, Thread, Message
 
 
 def get_servers(db):
@@ -98,3 +98,10 @@ def add_message(db, message: Message) -> Message:
         message.model_dump(exclude={"id"}, exclude_none=True))
     message.id = doc_ref.id
     return message
+
+
+def add_pace(db, pace: Pace) -> Pace:
+    _, doc_ref = db.collection("paces").add(
+        pace.model_dump(exclude={"id"}, exclude_none=True))
+    pace.id = doc_ref.id
+    return pace

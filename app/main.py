@@ -12,6 +12,7 @@ from .routers.threads import router as thread_router
 from .routers.home import router as home_router
 from .routers.messages import router as message_router
 from .routers.stream import router as stream_router
+from .routers.pace import router as pace_router
 
 
 app = FastAPI()
@@ -23,8 +24,9 @@ app.include_router(channel_router, prefix="/channels")
 app.include_router(thread_router, prefix="/threads")
 app.include_router(message_router, prefix="/messages")
 app.include_router(stream_router, prefix="/streams")
+app.include_router(pace_router, prefix="/paces")
 
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    return RedirectResponse(url='/')
+    return RedirectResponse(url='/servers')

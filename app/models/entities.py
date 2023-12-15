@@ -1,4 +1,5 @@
 from collections import defaultdict
+from dataclasses import dataclass
 from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime
@@ -80,3 +81,18 @@ class Thread(BaseModel):
     channel: str
     created_at: datetime
     created_by: str
+
+
+class Pace(BaseModel):
+    id: str
+    channel: str
+    created_at: datetime
+    created_by: str
+    feedback: str
+
+
+@dataclass
+class PaceAggregation:
+    ok: int
+    slower: int
+    stop: int
