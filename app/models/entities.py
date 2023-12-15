@@ -16,6 +16,11 @@ class Chat(BaseModel):
     message: str
 
 
+# TODO: don't hardcode
+
+bot_uid = "assistant"
+
+
 class Message(BaseModel):
     id: str
     channel: Optional[str] = None
@@ -23,6 +28,9 @@ class Message(BaseModel):
     sender: str
     content: str
     created_at: datetime
+
+    def is_bot(self):
+        return self.sender == bot_uid
 
 # @dataclass
 # class Thread:

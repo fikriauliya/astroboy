@@ -77,23 +77,21 @@ def get_messages(db, thread_id: str):
                     content=doc[1].get("content"),
                     created_at=doc[1].get("created_at")) for doc in docs]
 
-def get_messages_stream(db, thread_id: str):
-    docs = db.collection("messages").where("thread", "==", thread_id).order_by(
-        "created_at", direction="ASCENDING").stream()
 
-    # keep streaming on the docs, and yield the messages
+# def get_messages_stream(db, thread_id: str):
+#     docs = db.collection("messages").where("thread", "==", thread_id).order_by(
+#         "created_at", direction="ASCENDING").stream()
 
-    for doc in docs:
-        yield Message(id=doc.id,
-                    thread=doc.get("thread"),
-                    channel=doc.get("channel"),
-                    sender=doc.get("sender"),
-                    content=doc.get("content"),
-                    created_at=doc.get("created_at"))
-    
-    
+#     # keep streaming on the docs, and yield the messages
 
-    
+#     for doc in docs:
+#         yield Message(id=doc.id,
+#                       thread=doc.get("thread"),
+#                       channel=doc.get("channel"),
+#                       sender=doc.get("sender"),
+#                       content=content,
+#                       created_at=doc.get("created_at"))
+
 
 def add_message(db, message: Message) -> Message:
     _, doc_ref = db.collection("messages").add(

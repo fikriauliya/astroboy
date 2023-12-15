@@ -1,7 +1,6 @@
 
 from starlette.responses import RedirectResponse
 from fastapi import FastAPI, Request
-from dotenv import load_dotenv
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -16,7 +15,6 @@ from .routers.stream import router as stream_router
 
 
 app = FastAPI()
-load_dotenv()
 
 app.mount("/public", StaticFiles(directory="app/public"), name="public")
 app.include_router(home_router)

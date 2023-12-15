@@ -18,6 +18,7 @@
 
             <div id="chats_{{thread.id}}" hx-ext="sse" sse-connect="/streams/messages/{{thread.id}}" sse-swap="ADDED">
             </div>
+
             <form class="flex gap-4 py-4" hx-post="/messages/" hx-swap="none" hx-vars='{thread_id: "{{thread.id}}"}'>
                 <input type="text" name="content" class="flex-grow input input-bordered"
                     placeholder="Your message"></textarea>

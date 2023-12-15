@@ -7,7 +7,6 @@ from sse_starlette import EventSourceResponse, ServerSentEvent
 from app.clients.firestore_client import get_firestore_client
 from app.dependencies import init_ai
 from ..models.entities import Chat, Thread, User, Message
-from ..models.chatapp import ChatApp
 from app.repositories import add_thread, delete_thread, get_thread, get_threads, get_messages, add_message
 from app.dependencies import get_current_user
 from datetime import datetime
@@ -43,12 +42,17 @@ async def messages(request: Request, thread_id: str, db=Depends(get_firestore_cl
     def on_snapshot(col_snapshot, changes, read_time):
         for change in changes:
             event_data = change.document.to_dict()
-            print(change.type.name, event_data)
+            print(change.type.name, len(event_data))
+
+            content = event_data["content"]
+            # replace \n with <br>
+            content = content.replace("\n", "<br/>")
+
             message = Message(id=change.document.id,
                               channel=None,
                               thread=thread_id,
                               sender=event_data["sender"],
-                              content=event_data["content"],
+                              content=content,
                               created_at=event_data["created_at"]
                               )
             asyncio.run_coroutine_threadsafe(
